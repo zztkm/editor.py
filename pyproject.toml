@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "editor-py"
+version = "0.1.0"
+description = ""
+authors = ["zztkm <takumi.basket1682@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.scripts]
+editor-py = "src.main:main"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.0"
+pytest-cov = "^4.0.0"
+tox = "^4.0.16"
+pre-commit = "^2.20.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
