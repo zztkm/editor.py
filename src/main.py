@@ -1,10 +1,8 @@
 import argparse
 import sys
-
 from pathlib import Path
 
-
-__version__ = "v0.1.0"
+__version__ = "0.1.0"
 
 
 def main():
@@ -19,3 +17,4 @@ def main():
         print(f"{file.stem} not exists")
         sys.exit(1)
 
+    print(file.read_text())

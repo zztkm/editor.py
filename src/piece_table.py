@@ -15,7 +15,6 @@ class Piece:
 
 
 class PieceTable:
-
     def __init__(self, original_content: str):
         self.__original_content = original_content
         self.__add_content = ""
@@ -57,8 +56,7 @@ class PieceTable:
             Piece(Target.ADD, added_index, len(text)),
             Piece(target_piece.which, index, target_piece.length - (index - target_piece.start_index)),
         ]
-        self.pieces = self.pieces[:piece_index] + splited_pieces + self.pieces[piece_index + 1:]
-
+        self.pieces = self.pieces[:piece_index] + splited_pieces + self.pieces[piece_index + 1 :]
 
     def delete(self, index: int, length: int):
         print(index)
@@ -68,8 +66,7 @@ class PieceTable:
         text = ""
         for piece in self.pieces:
             if piece.which == Target.ORIGINAL:
-                text += self.__original_content[piece.start_index:piece.start_index + piece.length]
+                text += self.__original_content[piece.start_index : piece.start_index + piece.length]
             else:
-                text += self.__add_content[piece.start_index:piece.start_index + piece.length]
+                text += self.__add_content[piece.start_index : piece.start_index + piece.length]
         return text
-
