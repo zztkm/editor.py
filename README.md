@@ -17,6 +17,18 @@ Inspired by this article, I decided to implement a text editor: [Challenging pro
 
 from wiki
 
+## Development
+
+init
+```shell
+poetry install
+```
+
+run tests
+```shell
+poetry run tox
+```
+
 ## Articles I needed to learn
 
 - [二分木 - Wikipedia](https://ja.wikipedia.org/wiki/%E4%BA%8C%E5%88%86%E6%9C%A8)
