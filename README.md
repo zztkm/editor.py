@@ -29,8 +29,9 @@ run tests
 poetry run tox
 ```
 
-## Articles I needed to learn
+## Further reading:
 
+- [Text Editor: Data Structures – averylaird.com](https://www.averylaird.com/programming/the%20text%20editor/2017/09/30/the-piece-table/)
 - [二分木 - Wikipedia](https://ja.wikipedia.org/wiki/%E4%BA%8C%E5%88%86%E6%9C%A8)
 - Gap Buffer
     - https://en.wikipedia.org/wiki/Gap_buffer
@@ -39,7 +40,4 @@ poetry run tox
     - https://en.wikipedia.org/wiki/Piece_table
     - [テキストエディタで使われがちなデータ構造 Piece Table の概要と実装 - A Memorandum](https://blog1.mammb.com/entry/2022/09/07/224202#Piece-Table-method)
     - https://github.com/saiguy3/piece_table
-
-## Further reading:
-
-- [Text Editor: Data Structures – averylaird.com](https://www.averylaird.com/programming/the%20text%20editor/2017/09/30/the-piece-table/)
+	- https://github.com/veler/Csharp-Piece-Table-Implementation/blob/master/CsharpPieceTableImplementation/TextPieceTable.cs
