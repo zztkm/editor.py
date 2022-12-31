@@ -29,6 +29,16 @@ run tests
 poetry run tox
 ```
 
+install dev version editor:
+```shell
+poetry install
+```
+
+run dev version editor (e.g. print version):
+```shell
+poetry run editor-py --version
+```
+
 ## Further reading:
 
 - [Text Editor: Data Structures – averylaird.com](https://www.averylaird.com/programming/the%20text%20editor/2017/09/30/the-piece-table/)
