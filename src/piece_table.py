@@ -1,5 +1,8 @@
+import logging
 from dataclasses import dataclass
 from enum import Enum
+
+logger = logging.getLogger(__name__)
 
 
 class Target(Enum):
@@ -95,19 +98,56 @@ class PieceTable:
 
         if len(self.pieces) == piece_index:
             # 存在しない位置からの削除
-            print("存在しない")
+            logging.warning("存在しない")
             return
 
+        logger.debug(self.get_text())
+
+        # 削除範囲が 1 piece の場合
         if self.pieces[piece_index].length - offset >= length:
             # 取り回しやすいように変数化
             piece = self.pieces[piece_index]
             if piece.start_index == offset:
+                # piece の先頭から削除
                 piece.start_index += length
                 piece.length -= length
                 return
             elif piece.length == offset + length:
+                # pice の途中から最後まで削除
                 piece.length -= length
                 return
+            else:
+                # pice の間を削除
+                # この場合 piece を分割する
+                new_pieces = [
+                    Piece(piece.which, piece.start_index, offset - piece.start_index),
+                    Piece(piece.which, offset + length, piece.length - ((offset + length) - piece.start_index)),
+                ]
+                self.pieces = self.pieces[:piece_index] + new_pieces + self.pieces[piece_index + 1 :]
+                return
+
+        # 削除対象の最初 piece の offset 以降を pice の範囲から外す
+        deleted_len = self.pieces[piece_index].length - offset
+        self.pieces[piece_index].length -= deleted_len
+        length -= deleted_len
+
+        # 削除範囲が複数の piece にまたがる場合
+        for i in (piece_index + 1, len(self.pieces)):
+            piece = self.pieces[i]
+            if piece.length > length:
+                piece.start_index += length
+                piece.length -= length
+                break
+            elif piece.length == length:
+                # piece まるごと削除
+                self.pieces.pop(i)
+                break
+            else:
+                # 次の piece にもまたがっている場合
+                # length から削除対象の length を引いて
+                # 削除対象の piece を削除
+                length -= piece.length
+                self.pieces.pop(i)
 
     def get_text(self):
         text = ""

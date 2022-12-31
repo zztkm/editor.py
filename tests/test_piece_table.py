@@ -46,12 +46,31 @@ def test_insert_twice(original: str, insert_list: list[InsertData], expect: str)
 delete_test_data = [
     ("hello", 0, 2, "llo"),
     ("hello", 4, 1, "hell"),
+    ("hello", 2, 2, "heo"),
 ]
 
 
 @pytest.mark.parametrize("original, index, length, expect", delete_test_data)
 def test_delete(original: str, index: int, length: int, expect: str):
     table = PieceTable(original)
+    table.delete(index, length)
+    result = table.get_text()
+    assert result == expect
+
+
+delete_across_pieces_data = [
+    ("hello", [InsertData(5, " world")], 4, 3, "hellorld"),
+    ("hello", [InsertData(5, " world")], 5, 6, "hello"),
+    ("hello", [InsertData(5, " world"), InsertData(11, " vim")], 4, 11, "hell"),
+    ("hello", [InsertData(5, " world"), InsertData(11, " vim")], 5, 10, "hello"),
+]
+
+
+@pytest.mark.parametrize("original, insert_list, index, length, expect", delete_across_pieces_data)
+def test_delete_across_pieces(original: str, insert_list: list[InsertData], index: int, length: int, expect: str):
+    table = PieceTable(original)
+    for data in insert_list:
+        table.insert(data.text, data.index)
     table.delete(index, length)
     result = table.get_text()
     assert result == expect
