@@ -4,6 +4,23 @@
 
 Inspired by this article, I decided to implement a text editor: [Challenging projects every programmer should try - Austin Z. Henley](https://austinhenley.com/blog/challengingprojects.html)
 
+## TODO
+
+- データ構造: Piece table
+    - [x] index
+    - [x] insert
+    - [x] delete
+- [ ] ファイルがない場合に新規作成
+- UI
+    - [ ] カーソル移動
+- 編集
+    - [ ] insert
+    - [ ] delete
+    - [ ] undo
+    - [ ] redo
+- [ ] Abstractions to separate the visual and memory aspects of the text.
+
+
 ## Piece Table Overview
 
 > In computing, a piece table is a data structure typically used to represent a text document while it is edited in a text editor. Initially a reference (or 'span') to the whole of the original file is created, which represents the as yet unchanged file. Subsequent inserts and deletes replace a span by combinations of one, two, or three references to sections of either the original document or to a buffer holding inserted text.[1]
