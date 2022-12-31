@@ -1,8 +1,21 @@
 import argparse
+import logging
 import sys
 from pathlib import Path
+from shutil import get_terminal_size
 
-__version__ = "0.1.0"
+from readchar import readkey
+
+from .piece_table import PieceTable
+from .terminal import Terminal
+
+__version__ = "0.2.0"
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+# 横幅に余白を持たせるための定数
+MARGIN = 1
 
 
 def main():
@@ -17,4 +30,18 @@ def main():
         print(f"{file.stem} not exists")
         sys.exit(1)
 
-    print(file.read_text())
+    original_content = file.read_text(encoding="utf-8")
+    table = PieceTable(original_content)
+
+    terminal_size = get_terminal_size()
+    terminal = Terminal(terminal_size.columns - MARGIN, terminal_size.lines - MARGIN, table.get_text())
+    terminal.clear()
+    terminal.print()
+    while True:
+        k = ""
+        try:
+            k = readkey()
+            terminal.input(k)
+            terminal.print()
+        except KeyboardInterrupt:
+            pass

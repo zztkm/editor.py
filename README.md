@@ -29,14 +29,19 @@ run tests
 poetry run tox
 ```
 
+run dev editor-py:
+```
+poetry run editor-py --version
+```
+
 install dev version editor:
 ```shell
 poetry install
 ```
 
-run dev version editor (e.g. print version):
+After running `poetry install`, you can run the editor-py as follows:
 ```shell
-poetry run editor-py --version
+editor-py --version
 ```
 
 ## Further reading:
