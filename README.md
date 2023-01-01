@@ -63,6 +63,7 @@ editor-py --version
 
 ## Further reading:
 
+- [Build Your Own Text Editor](https://viewsourcecode.org/snaptoken/kilo/index.html)
 - [Text Editor: Data Structures – averylaird.com](https://www.averylaird.com/programming/the%20text%20editor/2017/09/30/the-piece-table/)
 - [二分木 - Wikipedia](https://ja.wikipedia.org/wiki/%E4%BA%8C%E5%88%86%E6%9C%A8)
 - Gap Buffer
