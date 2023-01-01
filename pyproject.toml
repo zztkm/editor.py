@@ -13,6 +13,7 @@ editor-py = "src.main:main"
 [tool.poetry.dependencies]
 python = "^3.10"
 readchar = "^4.0.3"
+colorama = "^0.4.6"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.0"

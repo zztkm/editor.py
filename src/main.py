@@ -42,6 +42,7 @@ def main():
         try:
             k = readkey()
             terminal.input(k)
+            # TODO: 画面のスクロールがない場合は再描画をスキップする
             terminal.print()
         except KeyboardInterrupt:
             pass

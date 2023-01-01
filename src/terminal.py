@@ -4,9 +4,18 @@ import subprocess
 import sys
 import unicodedata
 
+from colorama import Back, Fore, Style
 from readchar import key
 
+from .cursor import Cursor
+
 logger = logging.getLogger(__name__)
+
+
+# 文字白
+WHITE = "\033[37"
+# 背景白
+BG_WHITE = "\033[47m"
 
 
 def get_east_asian_width_count(text):
@@ -24,8 +33,8 @@ class Terminal:
         self.__width = width
         self.__height = height
 
-        self.__cursor_pos_x = 0
-        self.__cursor_pos_y = 0
+        self.__window_start_y = 0
+        self.__cursor = Cursor(0, 0)
         self.__set_number = True
         self.__platform = platform.system()
         self.__buffer = self.__init_buffer(text)
@@ -73,19 +82,23 @@ class Terminal:
 
         # 移動系
         if k == "j" or k == key.DOWN:
-            if self.__cursor_pos_y < self.__height:
+            if self.__cursor.y < self.__height:
                 # TODO: 画面スクロール処理を実装する
                 # 画面スクロールが実装できたらここの処理を変更する
-                self.__cursor_pos_y += 1
+                self.__cursor.down()
+                if self.__cursor.y > self.__window_start_y + self.__height:
+                    self.__window_start_y += 1
         elif k == "k" or k == key.UP:
-            if self.__cursor_pos_y > 0:
-                self.__cursor_pos_y -= 1
+            if self.__cursor.y > 0:
+                self.__cursor.up()
+                if self.__cursor.y < self.__window_start_y:
+                    self.__window_start_y -= 1
         elif k == "l" or k == key.RIGHT:
-            if self.__cursor_pos_x < self.__width:
-                self.__cursor_pos_x += 1
+            if self.__cursor.x < self.__width:
+                self.__cursor.right()
         elif k == "h" or k == key.LEFT:
-            if self.__cursor_pos_x > 0:
-                self.__cursor_pos_x -= 1
+            if self.__cursor.x > 0:
+                self.__cursor.left()
 
     def clear(self):
         cmd = "clear"
@@ -96,11 +109,27 @@ class Terminal:
         subprocess.run(cmd, shell=True)
 
     def print(self):
-        if self.__cursor_pos_y + self.__height > len(self.__buffer):
+        if self.__cursor.y + self.__height > len(self.__buffer):
             # 範囲外なので何もせずに return
             return
-        for i in range(self.__cursor_pos_y, self.__cursor_pos_y + self.__height):
+        for i in range(self.__window_start_y, self.__window_start_y + self.__height):
             if self.__set_number:
-                print(f"{i} {self.__buffer[i]}")
+                if self.__cursor.y == i:
+                    text = self.__buffer[i]
+                    pos_x = self.__cursor.x
+                    if len(text) == 0:
+                        # 行の要素数が 0 のときはスペースを代入する
+                        print(f"{i} {Back.WHITE}{Fore.BLACK} {Style.RESET_ALL}")
+                        continue
+                    elif len(text) < pos_x:
+                        pos_x = len(text) - 1
+                        cursor_pos_text = f"{Back.WHITE}{Fore.BLACK}{text[pos_x]}{Style.RESET_ALL}"
+                    else:
+                        cursor_pos_text = f"{Back.WHITE}{Fore.BLACK}{text[pos_x]}{Style.RESET_ALL}"
+
+                    text = text[:pos_x] + cursor_pos_text + text[pos_x + 1 :]
+                    print(f"{i} {text}")
+                else:
+                    print(f"{i} {self.__buffer[i]}")
             else:
                 print(self.__buffer[i])
